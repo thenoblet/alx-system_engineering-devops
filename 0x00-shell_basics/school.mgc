@@ -1,2 +1,2 @@
 #!/bin/bash
-0 string SCHOOL School data
+echo '0 string SCHOOL School data' > school.mgc
