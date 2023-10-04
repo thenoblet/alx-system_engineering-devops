@@ -1,2 +1,2 @@
 #!/bin/bash
-echo $((Ox$DECIMAL))
+echo $((0x$DECIMAL))
