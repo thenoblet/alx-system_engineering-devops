@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # This script is displaying "Best School" 10 times, and "Hi" after the 9th iteration
-.
+
 counter=0
 while [ $counter -lt 10 ]
 do
