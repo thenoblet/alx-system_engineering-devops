@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# This script is displaying "bad luck" in the 4th iteration, "good luck" in the 8th iteration,
+# and "Best school" in the rest.
+
+counter=1
+while [ $counter -le 10 ]
+do
+	if [ $counter -eq 4 ]
+	then
+		echo "bad luck"
+	elif [ $counter -eq 8 ]
+	then
+		echo "good luck"
+	else
+		echo "Best School"
+	fi
+	((counter++))
+done

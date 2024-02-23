@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# This script displays all the files in the current folder removing everything before the first "-" (included)
+for file in *
+do
+	find "$file" | cut -d"-" -f2-
+done

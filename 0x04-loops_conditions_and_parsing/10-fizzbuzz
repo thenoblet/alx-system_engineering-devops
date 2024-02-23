@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# this program prints the number from 1 to 100, writing Fizz if the number is multiple of 3,
+# Buzz if the number is multiple of 5, and FizzBuzz if the number is multiple of 3 and 5.
+
+for i in {1..100}; do
+	if [ "$((i % 3))" -eq 0 ] && [ "$((i % 5))" -eq 0 ]; then
+		echo "FizzBuzz"
+
+	elif [ "$((i % 3))" -eq 0 ]; then
+		echo "Fizz"
+
+	elif [ "$((i % 5))" -eq 0 ]; then
+		echo "Buzz"
+
+	else
+		echo "$i"
+	fi
+
+done
