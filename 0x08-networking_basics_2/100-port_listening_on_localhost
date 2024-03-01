@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# This script makes the machine listen in the port 98.
+nc -l 98
