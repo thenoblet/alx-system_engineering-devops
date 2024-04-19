@@ -17,15 +17,12 @@ This project focuses on configuration management using Puppet. Puppet is a power
 
 The project is structured as follows:
 
-./
-│
 ├── README.md
-├── 0x0A-configuration_management/
-│ ├── 0-create_a_file.pp
-│ ├── 1-install_a_package.pp
-│ ├── 2-execute_a_command.pp
-│ └── ...
-
+└── 0x0A-configuration_management/
+    ├── 0-create_a_file.pp
+    ├── 1-install_a_package.pp
+    ├── 2-execute_a_command.pp
+    └── ...
 
 
 ## Contents
