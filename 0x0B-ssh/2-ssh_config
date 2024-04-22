@@ -1,0 +1,9 @@
+# Configuration for connecting to the main server without password
+
+Host *
+    IdentityFile ~/.ssh/school
+    PubKeyAuthentication yes
+    PasswordAuthentication no
+    SendEnv LANG LC_*
+    HashKnownHosts yes
+    GSSAPIAuthentication yes
