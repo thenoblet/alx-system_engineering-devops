@@ -20,7 +20,7 @@ echo "Ceci n'est pas une page" > /usr/share/nginx/html/404.html
 # confifure the server for redirection and 404 page
 echo -e "\tserver_name _;
 \tlocation /redirect_me {
-\t\treturn 301 https://lzcorp-landing-page.vercel.app/;
+\t\treturn 301 https://www.alxafrica.com/;
 \t}
 
 \terror_page 404 /404.html;
