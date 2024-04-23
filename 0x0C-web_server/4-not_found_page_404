@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+#configures 404 page.
+apt-get -y update
+apt-get -y install nginx
+ufw allow 'Nginx HTTP'
+echo Holberton School > replace
+cp replace /var/www/html/index.nginx-debian.html
+rm replace
+sudo sed -ie "s/^server {$/server {\n\trewrite ^\/redirect_me http:\/\/holbertonschool.com permanent;/g" /etc/nginx/sites-available/default
+echo Ceci n\'est pas une page. > /usr/share/nginx/html/custom_404.html
+sudo sed -ie "s/^server {$/server {\n\terror_page 404 \/custom_404.html;\n\tlocation = \/custom_404.html {\n\t\troot \/usr\/share\/nginx\/html;\n\t\tinternal;\n\t}/g" /etc/nginx/sites-available/default
+service nginx restart
