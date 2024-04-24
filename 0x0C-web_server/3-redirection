@@ -14,13 +14,13 @@ redirection_config="/etc/nginx/redirect_config"
 echo -e "\tserver_name _;
 \tlocation /redirect_me {
 \t\treturn 301 https://lzcorp-landing-page.vercel.app/;
-\t}" > $redirection_config
+\t}" > "$redirection_config"
 
 # Insert the redirection configuration into the default Nginx server block
-sed -i '/server_name _;/{
+sed -i "/server_name _;/{
     r $redirection_config
     d
-}' /etc/nginx/sites-available/default
+}" /etc/nginx/sites-available/default
 
 # Restart the Nginx service
 service nginx restart
