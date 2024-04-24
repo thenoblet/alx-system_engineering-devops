@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-# This script installs the Nginx web server
 
 # Update the package list and install Nginx
 apt-get update
@@ -9,27 +8,22 @@ apt-get install -y nginx
 echo "Hello World!" > /var/www/html/index.html
 
 # Define the redirection configuration
+redirection_config="/etc/nginx/redirect_config"
+
+# Define the redirection configuration
 echo -e "\
 server {
     server_name _;
     location /redirect_me {
         return 301 https://alxafrica.com/;
     }
-}" > /etc/nginx/sites-available/redirect.conf
+}" > $redirection_config
 
-# Enable the redirection configuration by creating a symbolic link
-ln -s /etc/nginx/sites-available/redirect.conf /etc/nginx/sites-enabled/
+# Insert the redirection configuration into the default Nginx server block
+sed -i '/server_name _;/{
+    r /tmp/new_config
+    d
+}' /etc/nginx/sites-available/default
 
-# Remove the default configuration
-rm /etc/nginx/sites-enabled/default
-
-# Test the Nginx configuration
-nginx -t
-
-# If the configuration test is successful, restart Nginx
-if [ $? -eq 0 ]; then
-    service nginx restart
-    echo "Nginx restarted successfully."
-else
-    echo "Nginx configuration test failed. Please check the configuration for errors."
-fi
+# Restart the Nginx service
+service nginx restart
