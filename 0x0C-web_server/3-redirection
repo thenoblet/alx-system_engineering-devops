@@ -13,7 +13,7 @@ redirection_config="/etc/nginx/redirect_config"
 # Define the redirection configuration
 echo -e "\tserver_name _;
 \tlocation /redirect_me {
-\t\treturn 301 https://lzcorp-landing-page.vercel.app/;
+\t\treturn 301 https://alxafrica.com/;
 \t}" > "$redirection_config"
 
 # Insert the redirection configuration into the default Nginx server block
