@@ -1,8 +1,12 @@
 #!/usr/bin/env bash
-# Installs nginx server
+# Installs nginx web server
 
+# Update the package list and install Nginx
 apt-get update
-apt-get -y install nginx
-ufw allow 'Nginx HTTP'
+apt-get install -y nginx
+
+# Create the default "Hello world" page
 echo "Hello World!" > /var/www/html/index.html
+
+# Start the Nginx service
 service nginx start
