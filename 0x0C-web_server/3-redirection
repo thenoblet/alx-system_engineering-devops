@@ -11,17 +11,14 @@ echo "Hello World!" > /var/www/html/index.html
 redirection_config="/etc/nginx/redirect_config"
 
 # Define the redirection configuration
-echo -e "\
-server {
-    server_name _;
-    location /redirect_me {
-        return 301 https://alxafrica.com/;
-    }
-}" > $redirection_config
+echo -e "\tserver_name _;
+\tlocation /redirect_me {
+\t\treturn 301 https://lzcorp-landing-page.vercel.app/;
+\t}" > $redirection_config
 
 # Insert the redirection configuration into the default Nginx server block
 sed -i '/server_name _;/{
-    r /tmp/new_config
+    r $redirection_config
     d
 }' /etc/nginx/sites-available/default
 
