@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
-# This script installs the Nginx web server and 
+# Configuring Nginx server to have a custom 404 page that contains the string
+
+# Check for root privileges
+if [[ $EUID -ne 0 ]]; then
+   echo "This script must be run as root" 
+   exit 1
+fi
 
 # Update the package list and install Nginx
 apt-get update
@@ -8,28 +14,26 @@ apt-get install -y nginx
 # Create the default "Hello world" page
 echo "Hello World!" > /var/www/html/index.html
 
-# configure error 404 page
+# Configure the custom 404 page
 echo "Ceci n'est pas une page" > /usr/share/nginx/html/404.html
 
-# confifure the server for redirection and 404 page
-echo -e "\tserver_name _;
-\tlocation /redirect_me {
-\t\treturn 301 https://www.alxafrica.com/;
-\t}
+# Configure the server for redirection and 404 page
+echo "server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
 
-\terror_page 404 /404.html;
-\tlocation = /404.html {
-\t\troot /usr/share/nginx/html;
-\t\tinternal;
-\t}
-" > /tmp/new_config
+    server_name _;
 
-sed -i '/server_name _;/{
-    r /tmp/new_config
-}' /etc/nginx/sites-available/default
+    location /redirect_me {
+        return 301 https://www.alxafrica.com/;
+    }
 
-# Remove the temporary configuration file
-rm /tmp/new_config
+    error_page 404 /404.html;
+    location = /404.html {
+        root /usr/share/nginx/html;
+        internal;
+    }
+}" > /etc/nginx/sites-available/default
 
-# Start the Nginx service
+# Restart Nginx to apply changes
 service nginx start
