@@ -18,22 +18,21 @@ echo "Hello World!" > /var/www/html/index.html
 echo "Ceci n'est pas une page" > /usr/share/nginx/html/404.html
 
 # Configure the server for redirection and 404 page
-echo "server {
-    listen 80 default_server;
-    listen [::]:80 default_server;
+echo -e "\tserver_name _;
+\tlocation /redirect_me {
+\t\treturn 301 https://alxafrica.com/;
+\t}
 
-    server_name _;
+\terror_page 404 /404.html;
+\tlocation = /404.html {
+\t\troot /usr/share/nginx/html;
+\t\tinternal;
+\t}
+" > /tmp/custom_config
 
-    location /redirect_me {
-        return 301 https://www.alxafrica.com/;
-    }
-
-    error_page 404 /404.html;
-    location = /404.html {
-        root /usr/share/nginx/html;
-        internal;
-    }
-}" > /etc/nginx/sites-available/default
+sed -i '/server_name _;/{
+    r /tmp/custom_config
+}' /etc/nginx/sites-available/default
 
 # Restart Nginx to apply changes
 service nginx start
