@@ -28,10 +28,10 @@ echo -e "\tserver_name _;
 \t\troot /usr/share/nginx/html;
 \t\tinternal;
 \t}
-" > /tmp/custom_config
+" > /etc/nginx/redirect_config
 
 sed -i '/server_name _;/{
-    r /tmp/custom_config
+    r /etc/nginx/redirect_config
 }' /etc/nginx/sites-available/default
 
 # Restart Nginx to apply changes
