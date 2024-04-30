@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+# Description: This script automates the process of configuring Nginx
+# to add a custom HTTP header `X-Served-By` with the hostname of the server.
+
+# Function to install Nginx
+function install_nginx() {
+	sudo apt update
+
+	if ! sudo apt install -y nginx; then
+		echo "Failed to install Nginx. Aborting." >&2
+		exit 1
+	fi
+}
+
+# Function to configure Nginx to add custom header
+function configure_nginx() {
+	echo "add_header X-Served-By $HOSTNAME;" > /etc/nginx/conf.d/custom_response_headers.conf
+	service nginx restart
+}
+
+main() {
+	install_nginx
+	configure_nginx
+}
+
+main
