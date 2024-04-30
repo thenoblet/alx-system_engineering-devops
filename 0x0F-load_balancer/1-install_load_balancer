@@ -25,8 +25,8 @@ function configure_haproxy() {
 
 	backend noblet_backend
     		balance roundrobin
-    		server 530350-web-01 100.25.38.194 check
-    		server 530350-web-02 34.224.3.62 check
+    		server 530350-web-01 100.25.38.194:80 check
+    		server 530350-web-02 34.224.3.62:80 check
 EOF
 	)	
 
