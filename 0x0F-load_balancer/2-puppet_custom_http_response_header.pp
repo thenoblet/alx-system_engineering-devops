@@ -7,18 +7,17 @@ class custom_http_response_header {
   }
 
   # Define a file resource for custom Nginx configuration
-  file { '/etc/nginx/conf.d/custom_response_headers.conf':
-    ensure  => present,
-    content => "add_header X-Served-By ${facts['hostname']};",
-    require => Package['nginx'],
-    notify  => Service['nginx'],
-  }
+file_line { 'add custom header':
+  ensure => present,
+  path   => '/etc/nginx/sites-available/default',
+  line   => "\tadd_header X-Served-By ${hostname};",
+  after  => 'server_name _;',
+}
 
   # Ensure Nginx service is running and enabled
   service { 'nginx':
     ensure  => running,
     enable  => true,
-    require => Package['nginx'],
   }
 }
 
