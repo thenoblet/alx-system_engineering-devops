@@ -1,12 +1,15 @@
-# Define a class for configuring custom HTTP response header
-class custom_http_response_header {
+# Update package information
+exec { 'apt-update':
+  command => '/usr/bin/apt-get -y update',
+  path    => ['/usr/bin', '/bin'],
+}
 
-  # Install Nginx package
-  package { 'nginx':
-    ensure => installed,
-  }
+# Install Nginx package
+package { 'nginx':
+  ensure => installed,
+}
 
-  # Define a file resource for custom Nginx configuration
+# Configure Nginx to add the custom HTTP header
 file_line { 'add custom header':
   ensure => present,
   path   => '/etc/nginx/sites-available/default',
@@ -14,13 +17,7 @@ file_line { 'add custom header':
   after  => 'server_name _;',
 }
 
-  # Ensure Nginx service is running and enabled
-  service { 'nginx':
-    ensure  => running,
-    enable  => true,
-  }
+# Ensure Nginx is running
+service { 'nginx':
+  ensure => running,
 }
-
-# Apply the custom_http_response_header class to the node
-include custom_http_response_header
-
