@@ -25,8 +25,8 @@ function configure_haproxy() {
 
 	backend noblet_backend
     		balance roundrobin
-    		server 530350-web-01 100.25.38.194 check
-    		server 530350-web-02 34.224.3.62 check
+    		server 530350-web-01 100.25.38.194:80 check
+    		server 530350-web-02 34.224.3.62:80 check
 EOF
 	)	
 
@@ -36,8 +36,7 @@ EOF
     		bash -c "echo '$config_to_append' >> /etc/haproxy/haproxy.cfg"
 	fi
 
-	# Replace ENABLED line in /etc/default/haproxy to avoid duplication
-	sed -i 's/^ENABLED=.*/ENABLED=1/' /etc/default/haproxy
+	echo "ENABLED=1" | sudo tee -a /etc/default/haproxy
 	
 	# Restart HAProxy service
 	service haproxy restart
