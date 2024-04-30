@@ -1,7 +1,5 @@
 # A manifest that configures an Nginx web server with the following:
 # - A root page that displays "Hello World!"
-# - A redirection page that redirects to https://lzcorp-landing-page.vercel.app/
-# - A 404 page that displays "Ceci n'est pas une page"
 
 $nginx_package_name = 'nginx'
 $nginx_service_name = 'nginx'
@@ -28,7 +26,7 @@ server {
     }
 
     location /redirect {
-        return 301 https://lzcorp-landing-page.vercel.app/;
+        return 301 https://alxafrica.com/;
     }
 }
 END
