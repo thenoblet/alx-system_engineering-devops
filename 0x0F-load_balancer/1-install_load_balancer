@@ -36,8 +36,7 @@ EOF
     		bash -c "echo '$config_to_append' >> /etc/haproxy/haproxy.cfg"
 	fi
 
-	# Replace ENABLED line in /etc/default/haproxy to avoid duplication
-	sed -i 's/^ENABLED=.*/ENABLED=1/' /etc/default/haproxy
+	echo "ENABLED=1" | sudo tee -a /etc/default/haproxy
 	
 	# Restart HAProxy service
 	service haproxy restart
