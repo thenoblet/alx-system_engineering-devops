@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+# Description: Installs and configures HAProxy for load balancing web servers.
+
+# Function to install HAProxy
+function install_haproxy() {
+	# Update package index
+	apt-get update -y
+	
+	# Install necessary packages and add enable dedicated PPA for HAproxy 2.8
+	apt-get install --no-install-recommends software-properties-common
+	add-apt-repository ppa:vbernat/haproxy-2.8
+
+	# Install HAProxy
+	apt-get install -y haproxy
+}
+
+# Function to configure HAProxy
+function configure_haproxy() {
+	# Define the configuration snippet to append
+	config_to_append=$(cat <<EOF
+	frontend noblet-frontend
+    		bind *:80
+		mode http
+    		default_backend noblet_backend
+
+	backend noblet_backend
+    		balance roundrobin
+    		server 530350-web-01 100.25.38.194 check
+    		server 530350-web-02 34.224.3.62 check
+EOF
+	)	
+
+	# Check if the configuration snippet already exists in the file
+	if ! grep -qF "$config_to_append" /etc/haproxy/haproxy.cfg; then
+    		# Append the configuration snippet to the file
+    		bash -c "echo '$config_to_append' >> /etc/haproxy/haproxy.cfg"
+	fi
+
+	# Replace ENABLED line in /etc/default/haproxy to avoid duplication
+	sed -i 's/^ENABLED=.*/ENABLED=1/' /etc/default/haproxy
+	
+	# Restart HAProxy service
+	service haproxy restart
+}
+
+# Main function
+main() {
+	install_haproxy
+	configure_haproxy
+}
+
+# Execute main function
+main
