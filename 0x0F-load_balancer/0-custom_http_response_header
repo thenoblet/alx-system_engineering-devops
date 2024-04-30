@@ -5,11 +5,7 @@
 # Function to install Nginx
 function install_nginx() {
 	sudo apt update
-
-	if ! sudo apt install -y nginx; then
-		echo "Failed to install Nginx. Aborting." >&2
-		exit 1
-	fi
+	sudo apt install -y nginx
 }
 
 # Function to configure Nginx to add custom header
