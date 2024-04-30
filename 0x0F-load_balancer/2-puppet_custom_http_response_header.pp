@@ -9,7 +9,7 @@ class custom_http_response_header {
   # Define a file resource for custom Nginx configuration
   file { '/etc/nginx/conf.d/custom_response_headers.conf':
     ensure  => present,
-    content => "add_header X-Served-By $::hostname;",
+    content => "add_header X-Served-By ${facts['hostname']};",
     require => Package['nginx'],
     notify  => Service['nginx'],
   }
