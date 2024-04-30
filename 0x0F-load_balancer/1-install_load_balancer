@@ -17,14 +17,14 @@ config_to_append="
 # Function to install HAProxy
 function install_haproxy() {
 	# Update package index
-	apt-get update -y
+	apt-get -y update
 	
 	# Install necessary packages and add enable dedicated PPA for HAproxy 2.8
 	apt-get install --no-install-recommends software-properties-common
 	add-apt-repository ppa:vbernat/haproxy-2.8
 
 	# Install HAProxy
-	apt-get install -y haproxy
+	apt-get -y install haproxy
 }
 
 # Function to configure HAProxy
