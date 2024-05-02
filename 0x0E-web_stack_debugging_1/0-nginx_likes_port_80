@@ -5,5 +5,5 @@
 sed -i 's/8080/80/g' /etc/nginx/sites-enabled/default
 
 # Restart the Nginx service to apply the changes.
-service nginx restart
+service nginx restarti
 

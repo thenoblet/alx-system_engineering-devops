@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# This script modifies the Nginx configuration to listen on port 80 and gracefully reloads the Nginx process.
+
+sed -i 's/8080/80/g' /etc/nginx/sites-enabled/default
+pkill -1 -f '/usr/sbin/nginx'
