@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+# Script to display information about subdomains of a given domain using dig and awk
+
+# Function to display information about a specific subdomain
+get_subdomain_info() {
+    subdomain="$1"
+    domain="$2"
+    result=$(dig "${subdomain}.${domain}" | awk '/ANSWER SECTION/{getline; print}')
+    echo "The subdomain ${subdomain} is a $(echo "${result}" | awk '{print $4}') record and points to $(echo "${result}" | awk '{print $5}')"
+}
+
+# Function to display information about all subdomains
+get_all_subdomains_info() {
+    domain="$1"
+    subdomains=("www" "lb-01" "web-01" "web-02")
+    for subdomain in "${subdomains[@]}"; do
+        get_subdomain_info "${subdomain}" "${domain}"
+    done
+}
+
+# Main script
+if [ "$#" -eq 1 ]; then
+    get_all_subdomains_info "$1"
+elif [ "$#" -eq 2 ]; then
+    get_subdomain_info "$2" "$1"
+else
+    echo "Usage: $0 domain [subdomain]"
+    exit 1
+fi
+
