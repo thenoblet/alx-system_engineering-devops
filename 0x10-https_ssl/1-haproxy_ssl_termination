@@ -2,7 +2,7 @@ global
         log /dev/log    local0
         log /dev/log    local1 notice
         chroot /var/lib/haproxy
-        stats socket /run/haproxy/admin.sock mode 660 level admin expose-fd listeners
+        stats socket /run/haproxy/admin.sock mode 660 level admin
         stats timeout 30s
         user haproxy
         group haproxy
@@ -34,17 +34,16 @@ defaults
         errorfile 504 /etc/haproxy/errors/504.http
 
 frontend noblet-frontend-http
-        bind *:80
-        mode http
-        http-request set-header X-Forwarded-Proto http
-        default_backend noblet-backend
+    bind *:80
+    mode http
+    default_backend noblet-backend
 
 frontend noblet-frontend-https
-        bind *:443 ssl crt /etc/letsencrypt/live/www.noblet.tech/fullchain.pem
-        http-request set-header X-Forwarded-Proto https
-        default_backend noblet-backend
+    bind *:443 ssl crt /etc/haproxy/certs/www.noblet.tech.pem
+    http-request set-header X-Forwarded-Proto https
+    default_backend noblet-backend
 
 backend noblet-backend
-        balance roundrobin
-        server 530350-web-01 100.25.38.194:80 check
-        server 530350-web-02 34.224.3.62:80 check
+    balance roundrobin
+    server 530350-web-01 100.25.38.194:80 check
+    server 530350-web-02 34.224.3.62:80 check
