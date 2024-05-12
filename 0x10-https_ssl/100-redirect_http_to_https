@@ -40,8 +40,8 @@ frontend noblet-frontend-http
 
 frontend noblet-frontend-https
     bind *:443 ssl crt /etc/haproxy/certs/www.noblet.tech.pem
-    redirect scheme https if !{ ssl_fc }
     http-request set-header X-Forwarded-Proto https
+    redirect scheme https if !{ ssl_fc }
     default_backend noblet-backend
 
 backend noblet-backend
