@@ -41,6 +41,7 @@ sudo ufw enable
 
 # Check status
 sudo ufw status
+```
 
 ## Task 1: Port Forwarding
 
