@@ -1,43 +1,31 @@
-import requests
+#!/usr/bin/python3
+"""Accessing a REST API for todo lists of employees"""
+
 import json
+import requests
+import sys
 
 
-if __name__ == "__main__":
-    # Define the URLs
-    url_users = 'https://jsonplaceholder.typicode.com/users'
-    url_todos = 'https://jsonplaceholder.typicode.com/todos'
+if __name__ == '__main__':
+    url = "https://jsonplaceholder.typicode.com/users"
 
-    # Fetch data from the URLs
-    response_users = requests.get(url_users)
-    response_todos = requests.get(url_todos)
+    response = requests.get(url)
+    users = response.json()
 
-    # Convert response data to JSON
-    users = response_users.json()
-    todos = response_todos.json()
-
-    # Create a dictionary to store the data
-    data = {}
-
-    # Process users and todos
+    dictionary = {}
     for user in users:
-        user_id = str(user.get('id'))
+        user_id = user.get('id')
         username = user.get('username')
-
-        # Filter todos for the current user
-        user_todos = [
-                todo for todo in todos if todo.get('userId') == user.get('id')
-        ]
-
-        # Structure the tasks
-        tasks = [{
-            'username': username,
-            'task': todo.get('title'),
-            'completed': todo.get('completed')
-        } for todo in user_todos]
-
-        # Add the tasks to the dictionary under the user_id key
-        data[user_id] = tasks
-
-        # Write the data to a JSON file
-    with open('todo_all_employees.json', 'w') as json_file:
-        json.dump(data, json_file, indent=4)
+        url = 'https://jsonplaceholder.typicode.com/users/{}'.format(user_id)
+        url = url + '/todos/'
+        response = requests.get(url)
+        tasks = response.json()
+        dictionary[user_id] = []
+        for task in tasks:
+            dictionary[user_id].append({
+                "task": task.get('title'),
+                "completed": task.get('completed'),
+                "username": username
+            })
+    with open('todo_all_employees.json', 'w') as file:
+        json.dump(dictionary, file)
