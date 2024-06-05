@@ -1,12 +1,13 @@
-# this manifest fixes a misconfiguration that caused server error 500
+# Puppet Manifest to replace 'phpp' with 'php' in wp-settings.php
 
-$settings_file='/var/www/html/wp-settings.php'
-file { $settings_file:
+$file_path='/var/www/html/wp-settings.php'
+file { $file_path:
   ensure => file,
 }
 
-exec {'fix typo in settings config':
+exec {'replace_phpp_with_php':
   path    => ['/bin/', '/usr/bin/', '/usr/sbin/'],
-  command => "sed -i s/phpp/php/g ${settings_file}",
-  require => File[$settings_file],
+  command => "sed -i s/phpp/php/g ${file_path}",
+  require => File[$file_path],
+  refreshonly => true,
 }
