@@ -6,12 +6,10 @@ file { $file_path:
   ensure => file,
 }
 
-# Perform the replacement of 'phpp' with 'php' using augeas
-augeas { 'replace_phpp_with_php':
-  incl    => $file_path,
-  lens    => 'Text.lns',
-  changes => [
-    "set *[contains(text(), 'phpp')]/text[.='phpp'] 'php'",
-  ],
+# Use exec to replace 'phpp' with 'php' in the file
+exec { 'replace_phpp_with_php':
+  command     => "/usr/bin/sed -i 's/phpp/php/g' ${file_path}",
+  path        => ['/bin', '/usr/bin'],
+  refreshonly => true,
+  subscribe   => File[$file_path],
 }
-
