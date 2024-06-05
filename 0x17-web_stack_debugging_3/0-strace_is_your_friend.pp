@@ -9,5 +9,4 @@ exec {'replace_phpp_with_php':
   path    => ['/bin/', '/usr/bin/', '/usr/sbin/'],
   command => "sed -i s/phpp/php/g ${file_path}",
   require => File[$file_path],
-  refreshonly => true,
 }
