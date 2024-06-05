@@ -1,13 +1,12 @@
-# Define the file path as a variable
+# this manifest fixes a misconfiguration that caused server error 500
 
-$file_path = '/var/www/html/wp-settings.php'
-file { $file_path:
+$settings_file='/var/www/html/wp-settings.php'
+file { $settings_file:
   ensure => file,
 }
 
-exec { 'replace_phpp_with_php':
-  command     => "sed -i 's/phpp/php/g' ${file_path}",
-  path        => ['/bin', '/usr/bin', '/usr/sbin/'],
-  refreshonly => true,
-  require     => File[$file_path],
+exec {'fix typo in settings config':
+  path    => ['/bin/', '/usr/bin/', '/usr/sbin/'],
+  command => "sed -i s/phpp/php/g ${settings_file}",
+  require => File[$settings_file],
 }
